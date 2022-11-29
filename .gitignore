@@ -117,3 +117,4 @@ dist
 .pnp.*
 
 .deta
+.env.deta

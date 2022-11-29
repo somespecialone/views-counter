@@ -48,6 +48,7 @@ const getBadgeCounter = async (req, res) => {
   }
 
   res.append("content-type", "image/svg+xml; charset=utf-8");
+  res.append("cache-control", "max-age=0, no-cache, no-store, must-revalidate");
   res.status(status).send(badge);
 };
 
