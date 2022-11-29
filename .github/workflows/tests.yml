@@ -23,7 +23,7 @@ jobs:
         env:
           DETA_BASE_NAME: ${{ secrets.DETA_BASE_NAME }}
           DETA_PROJECT_KEY: ${{ secrets.DETA_PROJECT_KEY }}
-        run: npx jest tests --ci --coverage && codecov
+        run: npx jest tests --ci --coverage
 
       - name: "Upload coverage report to Codecov"
         uses: codecov/codecov-action@v3
