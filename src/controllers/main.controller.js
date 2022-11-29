@@ -3,18 +3,20 @@ const { db } = require("../config/db.config");
 
 const views = {}; // views counters mapping
 
-const prepareViews = async (key) => {
+const prepareViews = async (key, noIncrement) => {
   if (!views[key]) {
     const item = (await db.get(key)) || { views: 0 };
     views[key] = item.views;
-    if (!views[key]) {
+    if (!views[key] && !noIncrement) {
       // init data if there is not
       await db.put({ views: 0 }, key);
     }
   }
   // increment
-  await db.update({ views: db.util.increment(1) }, key);
-  views[key]++;
+  if (!noIncrement) {
+    await db.update({ views: db.util.increment(1) }, key);
+    views[key]++;
+  }
 
   return views[key];
 };
@@ -22,10 +24,10 @@ const prepareViews = async (key) => {
 const notFound = (req, res) => res.sendStatus(404);
 
 const getBadgeCounter = async (req, res) => {
-  const { key } = req.params;
-  const counter = await prepareViews(key);
+  const { label, labelColor, color, style, noIncrement } = req.query;
 
-  const { label, labelColor, color, style } = req.query;
+  const { key } = req.params;
+  const counter = await prepareViews(key, noIncrement);
 
   let badge;
   let status;
@@ -53,10 +55,12 @@ const getBadgeCounter = async (req, res) => {
 };
 
 const getJsonCounter = async (req, res) => {
-  const { key } = req.params;
-  const counter = await prepareViews(key);
+  const { noIncrement } = req.query;
 
-  res.status(200).json({ views: counter });
+  const { key } = req.params;
+  const counter = await prepareViews(key, noIncrement);
+
+  res.status(200).json({ counter });
 };
 
 module.exports = { notFound, getBadgeCounter, getJsonCounter };

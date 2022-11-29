@@ -1,3 +1,5 @@
+!process.env.DETA_RUNTIME && require("dotenv").config();
+
 const app = require("./src/app");
 
 module.exports = app;
