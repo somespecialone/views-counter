@@ -1,10 +1,11 @@
 const { makeBadge } = require("badge-maker");
+
 const { db } = require("../config/db.config");
 
-const views = {}; // views counters mapping
+const views = {}; // map key: {views}
 
 const prepareViews = async (key, noIncrement) => {
-  if (!views[key]) {
+  if (!(key in views)) {
     const item = (await db.get(key)) || { views: 0 };
     views[key] = item.views;
     if (!views[key] && !noIncrement) {
@@ -24,7 +25,7 @@ const prepareViews = async (key, noIncrement) => {
 const notFound = (req, res) => res.sendStatus(404);
 
 const getBadgeCounter = async (req, res) => {
-  const { label, labelColor, color, style, noIncrement } = req.query;
+  const { label = "views", labelColor = "", color = "blue", style = "flat", noIncrement = false } = req.query;
 
   const { key } = req.params;
   const counter = await prepareViews(key, noIncrement);
@@ -33,11 +34,11 @@ const getBadgeCounter = async (req, res) => {
   let status;
   try {
     badge = makeBadge({
-      label: label || "views",
+      label: label,
       message: counter.toString(),
-      color: color || "blue",
-      labelColor: labelColor || "",
-      style: style || "flat",
+      color: color,
+      labelColor: labelColor,
+      style: style,
     });
     status = 200;
   } catch (e) {
@@ -55,7 +56,7 @@ const getBadgeCounter = async (req, res) => {
 };
 
 const getJsonCounter = async (req, res) => {
-  const { noIncrement } = req.query;
+  const { noIncrement = false } = req.query;
 
   const { key } = req.params;
   const counter = await prepareViews(key, noIncrement);

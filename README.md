@@ -48,7 +48,9 @@ Have only two params: `key` and `noIncrement`.
 Response:
 
 ```json5
-{ counter: 123 }
+{
+  counter: 123
+}
 ```
 
 ### Fetch counter
@@ -59,11 +61,12 @@ so You can implement logic on front-end of your app to catch only unique visitor
 ## Deployment 🛠
 
 Deploy to Deta with button above, clone micro from Deta to local machine and
-update `env's` on your deta micro. [Deta CLI](https://docs.deta.sh/docs/cli/commands).
+update `env's` on your deta micro if you want. [Deta CLI](https://docs.deta.sh/docs/cli/commands).
 
 Environment variables:
 
-* `DETA_PROJECT_KEY` - Required. Key of your project from Deta web settings.
+* `DETA_PROJECT_KEY` - Optional([only](https://docs.deta.sh/docs/base/sdk#instantiating) for local development). Key of
+  your project from Deta web settings.
 * `DETA_BASE_NAME` - Optional. Name of [Deta Base](https://docs.deta.sh/docs/base/about).
 
 ## Testing 🧪
@@ -74,4 +77,4 @@ Same `evn's` requirements as [deployment](#deployment-)
 
 - [ ] Gradient badges from [bokub/gradient-badge](https://github.com/bokub/gradient-badge)
 - [ ] Icons
-- [ ] TypeScript
+- [ ] ~~TypeScript~~
