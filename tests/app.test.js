@@ -46,53 +46,56 @@ afterAll(() => {
 });
 
 describe("Test json counter route", () => {
+  test("JSON resp headers", async () => {
+    const res = await request(app).get(`/${testKey}`);
+    expect(res.status).toEqual(200);
+    expect(res.headers["content-type"]).toMatch(/json/);
+    expect(res.headers["cache-control"]).toEqual("max-age=0, no-cache, no-store, must-revalidate");
+    expect(res.headers["access-control-allow-origin"]).toEqual("*");
+  });
   test("JSON resp", async () => {
     const res = await request(app).get("/" + testKey);
     expect(res.status).toEqual(200);
-    expect(res.headers["content-type"]).toMatch(/json/);
-    expect(res.body.counter).toEqual(testInitViews + 1);
+    expect(res.body.counter).toEqual(testInitViews + 2);
   });
   test("JSON resp noIncrement", async () => {
     const res = await request(app).get(`/${testKey}?noIncrement=1`);
     expect(res.status).toEqual(200);
-    expect(res.headers["content-type"]).toMatch(/json/);
-    expect(res.body.counter).toEqual(testInitViews + 1);
+    expect(res.body.counter).toEqual(testInitViews + 2);
   });
   test("JSON resp noIncrement non-existent key", async () => {
     const res = await request(app).get("/non-exists-key?noIncrement=1");
     expect(res.status).toEqual(200);
-    expect(res.headers["content-type"]).toMatch(/json/);
     expect(res.body.counter).toEqual(0);
   });
 });
 
 describe("Test badge counter route", () => {
-  test("Badge resp", async () => {
-    const res = await request(app).get(`/${testKey}/badge?color=pink&label=test+label`);
+  test("Badge resp headers", async () => {
+    const res = await request(app).get(`/${testKey}/badge`);
     expect(res.status).toEqual(200);
     expect(res.headers["content-type"]).toEqual("image/svg+xml; charset=utf-8");
     expect(res.headers["cache-control"]).toEqual("max-age=0, no-cache, no-store, must-revalidate");
-    expect(res.body.toString()).toEqual(badgeExpected.replaceAll("%count", testInitViews + 2));
+    expect(res.headers["access-control-allow-origin"]).toEqual("*");
+  });
+  test("Badge resp", async () => {
+    const res = await request(app).get(`/${testKey}/badge?color=pink&label=test+label`);
+    expect(res.status).toEqual(200);
+    expect(res.body.toString()).toEqual(badgeExpected.replaceAll("%count", testInitViews + 4));
   });
   test("Badge noIncrement resp", async () => {
     const res = await request(app).get(`/${testKey}/badge?color=pink&label=test+label&noIncrement=1`);
     expect(res.status).toEqual(200);
-    expect(res.headers["content-type"]).toEqual("image/svg+xml; charset=utf-8");
-    expect(res.headers["cache-control"]).toEqual("max-age=0, no-cache, no-store, must-revalidate");
-    expect(res.body.toString()).toEqual(badgeExpected.replaceAll("%count", testInitViews + 2));
+    expect(res.body.toString()).toEqual(badgeExpected.replaceAll("%count", testInitViews + 4));
   });
   test("Badge noIncrement resp non-existent key", async () => {
     const res = await request(app).get("/non-exists-key/badge?color=pink&label=test+label&noIncrement=1");
     expect(res.status).toEqual(200);
-    expect(res.headers["content-type"]).toEqual("image/svg+xml; charset=utf-8");
-    expect(res.headers["cache-control"]).toEqual("max-age=0, no-cache, no-store, must-revalidate");
     expect(res.body.toString()).toEqual(badgeExpected.replaceAll("%count", 0));
   });
   test("Error badge resp", async () => {
     const res = await request(app).get(`/${testKey}/badge?style=invalid-style`);
     expect(res.status).toEqual(400);
-    expect(res.headers["content-type"]).toEqual("image/svg+xml; charset=utf-8");
-    expect(res.headers["cache-control"]).toEqual("max-age=0, no-cache, no-store, must-revalidate");
     expect(res.body.toString()).toEqual(errorBadgeExpected);
   });
 });
