@@ -52,6 +52,7 @@ describe("Test json counter route", () => {
     expect(res.headers["content-type"]).toMatch(/json/);
     expect(res.headers["cache-control"]).toEqual("max-age=0, no-cache, no-store, must-revalidate");
     expect(res.headers["access-control-allow-origin"]).toEqual("*");
+    expect(res.headers["access-control-allow-headers"]).toEqual("*");
   });
   test("JSON resp", async () => {
     const res = await request(app).get("/" + testKey);
