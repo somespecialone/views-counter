@@ -5,6 +5,7 @@
 [![license](https://img.shields.io/github/license/somespecialone/views-counter)](https://github.com/somespecialone/views-counter/blob/master/LICENSE)
 [![Tests](https://github.com/somespecialone/views-counter/actions/workflows/tests.yml/badge.svg)](https://github.com/somespecialone/views-counter/actions/workflows/tests.yml)
 [![Deploy](https://github.com/somespecialone/views-counter/actions/workflows/deploy.yml/badge.svg)](https://github.com/somespecialone/views-counter/actions/workflows/deploy.yml)
+[![codecov](https://codecov.io/gh/somespecialone/views-counter/branch/master/graph/badge.svg?token=GM6IQU4U2K)](https://codecov.io/gh/somespecialone/views-counter)
 [![CodeFactor](https://www.codefactor.io/repository/github/somespecialone/views-counter/badge)](https://www.codefactor.io/repository/github/somespecialone/views-counter)
 
 ---
