@@ -1,8 +1,17 @@
-!process.env.DETA_RUNTIME && require("dotenv").config();
+const express = require("express");
 
-const app = require("./src/app");
+const app = express();
 
-module.exports = app;
+!process.env.DETA_SPACE_APP && require("dotenv").config(); // dev mode
 
-// dev mode
-!process.env.DETA_RUNTIME && app.listen(3000, () => console.info("Listen on http://localhost:3000"));
+const { allowCors, cacheControl } = require("./middlewares/main.middleware");
+const mainRouter = require("./routes/main.route");
+
+app.use(allowCors);
+app.use(cacheControl);
+app.use("/", mainRouter);
+
+const port = parseInt(process.env.PORT) || 3000;
+app.listen(port);
+
+module.exports = app

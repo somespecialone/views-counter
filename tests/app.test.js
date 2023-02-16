@@ -2,8 +2,8 @@ const request = require("supertest");
 
 require("dotenv").config();
 
-const app = require("../src/app");
-const { db } = require("../src/config/db.config");
+const app = require("../index");
+const { db } = require("../config/db.config");
 
 const testKey = "test-counter";
 const testInitViews = 5;

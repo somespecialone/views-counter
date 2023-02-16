@@ -1,4 +1,4 @@
-LICENSE
 pnpm-lock.yaml
 README.md
 tests
+.*

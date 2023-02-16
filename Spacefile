@@ -1,0 +1,8 @@
+v: 0
+micros:
+  - name: views-counter
+    src: .
+    engine: nodejs16
+    primary: true
+    public_routes:
+      - "*"

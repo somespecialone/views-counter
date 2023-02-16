@@ -3,7 +3,7 @@ name: Tests
 on:
   push:
     branches: [ master ]
-    paths-ignore: [ "LICENSE", "index.js", "README.md" ]
+    paths-ignore: [ "LICENSE", "README.md" ]
 
 jobs:
   main:
