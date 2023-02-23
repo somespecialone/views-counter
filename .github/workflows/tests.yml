@@ -3,7 +3,7 @@ name: Tests
 on:
   push:
     branches: [ master ]
-    paths-ignore: [ "LICENSE", "README.md" ]
+    paths: [ "src", "package.json" ]
 
 jobs:
   main:
@@ -21,7 +21,7 @@ jobs:
 
       - name: "Run Jest tests with coverage"
         env:
-          DETA_BASE_NAME: ${{ secrets.DETA_BASE_NAME }}
+          DETA_BASE_NAME: "test-base"
           DETA_PROJECT_KEY: ${{ secrets.DETA_PROJECT_KEY }}
         run: pnpm jest tests --ci --coverage
 
@@ -30,4 +30,4 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
-        timeout-minutes: 30
+        timeout-minutes: 10

@@ -6,6 +6,7 @@
 [![Tests](https://github.com/somespecialone/views-counter/actions/workflows/tests.yml/badge.svg)](https://github.com/somespecialone/views-counter/actions/workflows/tests.yml)
 [![codecov](https://codecov.io/gh/somespecialone/views-counter/branch/master/graph/badge.svg?token=GM6IQU4U2K)](https://codecov.io/gh/somespecialone/views-counter)
 [![CodeFactor](https://www.codefactor.io/repository/github/somespecialone/views-counter/badge)](https://www.codefactor.io/repository/github/somespecialone/views-counter)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat)](https://github.com/prettier/prettier)
 
 ---
 

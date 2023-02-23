@@ -2,10 +2,11 @@ const request = require("supertest");
 
 require("dotenv").config();
 
-const app = require("../index");
-const { db } = require("../config/db.config");
+const app = require("../src/main");
+const { db } = require("../src/config/db.config");
 
 const testKey = "test-counter";
+const nonExistentKey = "non-exists-key";
 const testInitViews = 5;
 const badgeExpected =
   '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="78" ' +
@@ -37,12 +38,12 @@ const errorBadgeExpected =
   'param/s</text><text x="1025" y="140" transform="scale(.1)" fill="#fff" textLength="1230">invalid badge ' +
   "param/s</text></g></svg>";
 
-beforeAll(() => {
-  return db.put({ views: testInitViews }, testKey);
+beforeAll(async () => {
+  await db.put({ views: testInitViews }, testKey);
 });
 
-afterAll(() => {
-  return db.delete(testKey);
+afterAll(async () => {
+  await db.delete(testKey);
 });
 
 describe("Test json counter route", () => {
@@ -65,7 +66,7 @@ describe("Test json counter route", () => {
     expect(res.body.counter).toEqual(testInitViews + 2);
   });
   test("JSON resp noIncrement non-existent key", async () => {
-    const res = await request(app).get("/non-exists-key?noIncrement=1");
+    const res = await request(app).get(`/${nonExistentKey}?noIncrement=1`);
     expect(res.status).toEqual(200);
     expect(res.body.counter).toEqual(0);
   });
@@ -90,7 +91,7 @@ describe("Test badge counter route", () => {
     expect(res.body.toString()).toEqual(badgeExpected.replaceAll("%count", testInitViews + 4));
   });
   test("Badge noIncrement resp non-existent key", async () => {
-    const res = await request(app).get("/non-exists-key/badge?color=pink&label=test+label&noIncrement=1");
+    const res = await request(app).get(`/${nonExistentKey}/badge?color=pink&label=test+label&noIncrement=1`);
     expect(res.status).toEqual(200);
     expect(res.body.toString()).toEqual(badgeExpected.replaceAll("%count", 0));
   });
