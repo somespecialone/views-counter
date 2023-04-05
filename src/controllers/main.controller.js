@@ -1,4 +1,4 @@
-const { makeBadge } = require("badge-maker");
+const badgen = require("gradient-badge");
 
 const { db } = require("../config/db.config");
 
@@ -18,7 +18,17 @@ const getViews = async (key, noIncrement) => {
 };
 
 const getBadgeCounter = async (req, res) => {
-  const { label = "views", labelColor = "", color = "blue", style = "flat", noIncrement = false } = req.query;
+  const {
+    label = "views",
+    labelColor,
+    color,
+    style,
+    gradient,
+    icon,
+    iconWidth,
+    scale,
+    noIncrement = false
+  } = req.query;
 
   const { key } = req.params;
   const counter = await getViews(key, noIncrement);
@@ -26,19 +36,23 @@ const getBadgeCounter = async (req, res) => {
   let badge;
   let status;
   try {
-    badge = makeBadge({
-      label: label,
-      message: counter.toString(),
-      color: color,
-      labelColor: labelColor,
-      style: style
+    badge = badgen({
+      label,
+      status: counter.toString(),
+      color,
+      labelColor,
+      style,
+      gradient: gradient ? gradient.split("-") : gradient,
+      icon,
+      iconWidth,
+      scale
     });
     status = 200;
   } catch (e) {
-    badge = makeBadge({
+    badge = badgen({
       label: "error",
       color: "red",
-      message: "invalid badge param/s"
+      status: "invalid badge param/s"
     });
     status = 400;
   }

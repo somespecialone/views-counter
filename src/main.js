@@ -1,4 +1,6 @@
-const app = require("express")();
+const express = require("express");
+
+const app = express();
 
 !process.env.DETA_SPACE_APP && require("dotenv").config(); // dev mode
 

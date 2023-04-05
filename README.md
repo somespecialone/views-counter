@@ -1,6 +1,6 @@
 # <p align="center">Views Counter</p>
 
-[![Views](https://vc.somespecial.one/views-counter-repo/badge?label=repo+views+%F0%9F%91%80&color=lightblue)](https://github.com/somespecialone/views-counter)
+[![Views](https://vc.somespecial.one/views-counter-repo/badge?label=repo+views+%F0%9F%91%80&gradient=pink-F78642)](https://github.com/somespecialone/views-counter)
 [![Made in Ukraine](https://img.shields.io/badge/made_in-ukraine-ffd700.svg?labelColor=0057b7)](https://stand-with-ukraine.pp.ua)
 [![license](https://img.shields.io/github/license/somespecialone/views-counter)](https://github.com/somespecialone/views-counter/blob/master/LICENSE)
 [![Tests](https://github.com/somespecialone/views-counter/actions/workflows/tests.yml/badge.svg)](https://github.com/somespecialone/views-counter/actions/workflows/tests.yml)
@@ -17,7 +17,7 @@
 Deta `micro` app that counts page hits(views). Can generate `badge` or json response with counter.
 
 Badge need to be generated each time when page with link is loaded, so caching is omitted.
-Due to this, app `NOT USE` redirects to [shields.io](https://shields.io/), but instead create badge by herself.
+Due to this, app `NOT USE` redirects to [badgen.net](https://badgen.net/), but instead create badge by herself.
 
 > ⚡ Single deta micro may have rate-limit, so if You want to heavily use counter, please, [deploy](#deployment-) it
 > to [Deta Space](https://deta.space/) by yourself with button above. ⚡
@@ -26,23 +26,25 @@ Due to this, app `NOT USE` redirects to [shields.io](https://shields.io/), but i
 
 ### Badge endpoint
 
-> https://vc.somespecial.one/ ***key*** /badge?***label***=...&***labelColor***=...&***color***=...&***style***
+> url /:key/badge?***label***=...&***labelColor***=...&***color***=...&***style***
 > =...&***noIncrement***=...
 
-| Param name    |          | Description                                 | Default value |
-|---------------|----------|---------------------------------------------|---------------|
-| `key`         | Required | Unique key for this counter.                | -             |
-| `label`       | Optional | Label(right) text.                          | "views"       |
-| `labelColor`  | Optional | badge-maker color.                          | "#555"        |
-| `color`       | Optional | badge-maker color.                          | "#4c1"        |
-| `style`       | Optional | badge-maker style.                          | "flat"        |
-| `noIncrement` | Optional | To [not increment](#fetch-counter) counter. | `false`       |
-
-> [badge-maker color and style args](https://www.npmjs.com/package/badge-maker)
+| Param name    |          | Description                                                     | Default value |
+|---------------|----------|-----------------------------------------------------------------|---------------|
+| `key`         | Required | Unique key for this counter. Path param.                        | -             |
+| `label`       | Optional | [badgen](https://github.com/badgen/badgen#usage)                | "views"       |
+| `labelColor`  | Optional | [badgen](https://github.com/badgen/badgen#usage)                | "#555"        |
+| `color`       | Optional | [badgen](https://github.com/badgen/badgen#usage)                | "blue"        |
+| `style`       | Optional | [badgen](https://github.com/badgen/badgen#usage)                | "classic"     |
+| `icon`        | Optional | [badgen](https://github.com/badgen/badgen#usage)                | -             |
+| `iconWidth`   | Optional | [badgen](https://github.com/badgen/badgen#usage)                | 13            |
+| `scale`       | Optional | [badgen](https://github.com/badgen/badgen#usage)                | 1             |
+| `gradient`    | Optional | [gradient-badge](https://github.com/bokub/gradient-badge#usage) | -             |
+| `noIncrement` | Optional | To [not increment](#fetch-counter) counter.                     | `false`       |
 
 ### JSON endpoint
 
-> https://vc.somespecial.one/ ***key*** ?***noIncrement***=...
+> url /:key?***noIncrement***=...
 
 Have only two params: `key` and `noIncrement`.
 
@@ -70,6 +72,6 @@ Deploy to [deta.space](https://deta.space) with button above.
 
 ## TODO 📑
 
-- [ ] Gradient badges from [bokub/gradient-badge](https://github.com/bokub/gradient-badge)
-- [ ] Icons
+- [x] Gradient badges from [bokub/gradient-badge](https://github.com/bokub/gradient-badge)
+- [x] Icons
 - [ ] ~~TypeScript~~

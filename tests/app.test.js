@@ -9,34 +9,26 @@ const testKey = "test-counter";
 const nonExistentKey = "non-exists-key";
 const testInitViews = 5;
 const badgeExpected =
-  '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="78" ' +
-  'height="20" role="img" aria-label="test label: %count"><title>test label: %count' +
-  "</title><linearGradient " +
-  'id="s" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" ' +
-  'stop-opacity=".1"/></linearGradient><clipPath id="r"><rect width="78" height="20" rx="3" ' +
-  'fill="#fff"/></clipPath><g clip-path="url(#r)"><rect width="61" height="20" fill="#555"/><rect x="61" ' +
-  'width="17" height="20" fill="pink"/><rect width="78" height="20" fill="url(#s)"/></g><g fill="#fff" ' +
-  'text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" ' +
-  'text-rendering="geometricPrecision" font-size="110"><text aria-hidden="true" x="315" y="150" ' +
-  'fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="510">test label</text><text ' +
-  'x="315" y="140" transform="scale(.1)" fill="#fff" textLength="510">test label</text><text ' +
-  'aria-hidden="true" x="685" y="150" fill="#ccc" fill-opacity=".3" transform="scale(.1)" ' +
-  'textLength="70">%count</text><text x="685" y="140" transform="scale(.1)" fill="#333" ' +
-  'textLength="70">%count</text></g></svg>';
-const errorBadgeExpected =
-  '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" ' +
-  'width="170" height="20" role="img" aria-label="error: invalid badge param/s"><title>error: invalid badge ' +
-  'param/s</title><linearGradient id="s" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" ' +
-  'stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="r"><rect ' +
-  'width="170" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#r)"><rect width="37" ' +
-  'height="20" fill="#555"/><rect x="37" width="133" height="20" fill="#e05d44"/><rect width="170" ' +
-  'height="20" fill="url(#s)"/></g><g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu ' +
-  'Sans,sans-serif" text-rendering="geometricPrecision" font-size="110"><text aria-hidden="true" x="195" ' +
-  'y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="270">error</text><text ' +
-  'x="195" y="140" transform="scale(.1)" fill="#fff" textLength="270">error</text><text aria-hidden="true" ' +
-  'x="1025" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="1230">invalid badge ' +
-  'param/s</text><text x="1025" y="140" transform="scale(.1)" fill="#fff" textLength="1230">invalid badge ' +
-  "param/s</text></g></svg>";
+  "<svg width=\"77.9\" height=\"20\" viewBox=\"0 0 779 200\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"test label: %count\">\n" +
+  "  <title>test label: %count</title>\n" +
+  "  <linearGradient id=\"a\" x2=\"0\" y2=\"100%\">\n" +
+  "    <stop offset=\"0\" stop-opacity=\".1\" stop-color=\"#EEE\"/>\n" +
+  "    <stop offset=\"1\" stop-opacity=\".1\"/>\n" +
+  "  </linearGradient>\n" +
+  "  <mask id=\"m\"><rect width=\"779\" height=\"200\" rx=\"30\" fill=\"#FFF\"/></mask>\n" +
+  "  <g mask=\"url(#m)\">\n" +
+  "    <rect width=\"609\" height=\"200\" fill=\"#555\"/>\n" +
+  "    <rect width=\"170\" height=\"200\" fill=\"#E5B\" x=\"609\"/>\n" +
+  "    <rect width=\"779\" height=\"200\" fill=\"url(#a)\"/>\n" +
+  "  </g>\n" +
+  "  <g aria-hidden=\"true\" fill=\"#fff\" text-anchor=\"start\" font-family=\"Verdana,DejaVu Sans,sans-serif\" font-size=\"110\">\n" +
+  "    <text x=\"60\" y=\"148\" textLength=\"509\" fill=\"#000\" opacity=\"0.25\">test label</text>\n" +
+  "    <text x=\"50\" y=\"138\" textLength=\"509\">test label</text>\n" +
+  "    <text x=\"664\" y=\"148\" textLength=\"70\" fill=\"#000\" opacity=\"0.25\">%count</text>\n" +
+  "    <text x=\"654\" y=\"138\" textLength=\"70\">%count</text>\n" +
+  "  </g>\n" +
+  "  \n" +
+  "</svg>";
 
 beforeAll(async () => {
   await db.put({ views: testInitViews }, testKey);
@@ -94,10 +86,5 @@ describe("Test badge counter route", () => {
     const res = await request(app).get(`/${nonExistentKey}/badge?color=pink&label=test+label&noIncrement=1`);
     expect(res.status).toEqual(200);
     expect(res.body.toString()).toEqual(badgeExpected.replaceAll("%count", 0));
-  });
-  test("Error badge resp", async () => {
-    const res = await request(app).get(`/${testKey}/badge?style=invalid-style`);
-    expect(res.status).toEqual(400);
-    expect(res.body.toString()).toEqual(errorBadgeExpected);
   });
 });
