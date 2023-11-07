@@ -46,7 +46,7 @@ afterAll(async () => {
 
 describe('Test json counter route', () => {
   test('JSON resp headers', async () => {
-    const res = await agent.get(`/${testKey}`).expect(200)
+    const res = await agent.get(`/${testKey}`).set('origin', 'https://example.com').expect(200)
     expect(res.headers['content-type']).toMatch(/json/)
     expect(res.headers['cache-control']).toMatch(/no-store/)
     expect(res.headers['access-control-allow-origin']).toEqual(process.env.NITRO_ALLOW_ORIGIN || '*')
@@ -67,7 +67,7 @@ describe('Test json counter route', () => {
 
 describe('Test badge counter route', () => {
   test('Badge resp headers', async () => {
-    const res = await agent.get(`/${testKey}/badge`).expect(200)
+    const res = await agent.get(`/${testKey}/badge`).set('origin', 'https://example.com').expect(200)
     expect(res.headers['content-type']).toEqual('image/svg+xml; charset=utf-8')
     expect(res.headers['cache-control']).toMatch(/no-store/)
     expect(res.headers['access-control-allow-origin']).toEqual(process.env.NITRO_ALLOW_ORIGIN || '*')
